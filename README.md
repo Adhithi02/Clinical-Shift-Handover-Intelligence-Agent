@@ -10,10 +10,10 @@ This document explains the final state of your machine, the robust tech stack we
 Your guidelines presented two core mandates. Here is how your machine crushed them:
 
 ### Base Requirement: "Read any PDF files and provide a detailed summary"
-**✅ Achieved:** Instead of just extracting raw text blocks, our application uses **`pdfplumber`** to crack open unstructured clinical PDF reports. Our backend extracts vitals, lab results, and clinical notes, and passes them to our generative AI (Llama 3.2). The AI then dynamically reforms this unstructured data into a highly rigorous, hospital-grade **SBAR** (Situation, Background, Assessment, Recommendation) structured summary.
+**Achieved:** Instead of just extracting raw text blocks, our application uses **`pdfplumber`** to crack open unstructured clinical PDF reports. Our backend extracts vitals, lab results, and clinical notes, and passes them to our generative AI (Llama 3.2). The AI then dynamically reforms this unstructured data into a highly rigorous, hospital-grade **SBAR** (Situation, Background, Assessment, Recommendation) structured summary.
 
 ### Use Case 2 Requirement: Agent Workflow via A2A & MCP (Non-Hardcoded)
-**✅ Achieved:** Your explicit prompt asked for:
+**Achieved:** Your explicit prompt asked for:
 > *"Create an Agent workflow application using A2A and MCP protocols where the agents plan the tasks and execute them in a non-hardcoded manner."*
 
 - **A2A Protocol**: We architected the system using `python-a2a` to define 4 totally distinct AI personas (`Planner`, `Risk`, `Missing_Info`, `Synthesis`).
@@ -26,7 +26,7 @@ Your guidelines presented two core mandates. Here is how your machine crushed th
 
 This application replaces traditional, monolithic software design with a highly decoupled, state-of-the-art micro-agent architecture. By separating the intelligence layer, the orchestration layer, and the visual layer, the system achieves maximum fault tolerance and scalability.
 
-### 🧠 The Intelligence & Orchestration Layer (The Brain)
+### The Intelligence & Orchestration Layer (The Brain)
 
 **1. Ollama & Llama 3.2 (Local Generative AI Inference)**
 Instead of relying on cloud-based APIs like OpenAI's GPT-4, this application executes **Llama 3.2** natively on the host machine using **Ollama** as the model runtime environment. 
@@ -40,7 +40,7 @@ To orchestrate multiple AI agents, we utilized **LangGraph** instead of traditio
 The guidelines demanded strict adherence to Agent-to-Agent (A2A) and Model Context Protocol (MCP) standards.
 - *Why this matters:* **`python-a2a`** is used to encapsulate different AI roles (Planner, Risk, Missing Info, Synthesis) into explicit objects. This stops the LLM from suffering from "persona collapse" by tightly sandboxing each agent's identity. **`FastMCP` (Model Context Protocol)** was integrated to safely expose underlying Python utilities (like PDF text extraction and Doctor Replanning functions) to the AI engine. Rather than allowing the AI to execute arbitrary code, FastMCP wraps these functions in strict validation schemas, effectively allowing external AI clients to securely interface with your machine's local tools.
 
-### ⚙️ The Backend Interface (The Server)
+###  The Backend Interface (The Server)
 
 **1. FastAPI & Pydantic**
 The backend is driven by **FastAPI**, an insanely fast Python web framework tailored for asynchronous execution. 
@@ -50,7 +50,7 @@ The backend is driven by **FastAPI**, an insanely fast Python web framework tail
 While REST endpoints are used for standard file uploads, the core of the dashboard's real-time interface is driven by WebSockets.
 - *Why this matters:* Standard HTTP protocols require the frontend to wait until a request is completely finished to see a response. Because an LLM can take 10+ seconds to generate a clinical SBAR, a standard HTTP request would cause the UI to freeze. By opening an active, two-way WebSocket connection, the FastAPI server can run the LLM in a background `asyncio` thread, and securely stream live, piece-by-piece status updates ("Thinking...", "Evaluating flags...", "Writing SBAR...") instantly to the React UI as they occur.
 
-### 💻 The Frontend Framework (The Client)
+### The Frontend Framework (The Client)
 
 **1. React 18 + Vite**
 The interface is constructed using **React 18** and bundled using **Vite**.
