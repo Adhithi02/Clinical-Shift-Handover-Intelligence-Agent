@@ -1,32 +1,15 @@
 # Clinical Shift Handover Intelligence Agent
 ## Architecture & Solution Overview
 
-This document explains the final state of your machine, the robust tech stack we implemented, how the components are systematically interlinked, and exactly how the application perfectly satisfies the rules of your prompt.
+This document explains the final state of our machine, the robust tech stack we implemented, how the components are systematically interlinked, and exactly how the application perfectly satisfies the rules of your prompt.
 
 ---
 
-## 1. How It Satisfies the Use-Case Criteria
-
-Your guidelines presented two core mandates. Here is how your machine crushed them:
-
-### Base Requirement: "Read any PDF files and provide a detailed summary"
-**Achieved:** Instead of just extracting raw text blocks, our application uses **`pdfplumber`** to crack open unstructured clinical PDF reports. Our backend extracts vitals, lab results, and clinical notes, and passes them to our generative AI (Llama 3.2). The AI then dynamically reforms this unstructured data into a highly rigorous, hospital-grade **SBAR** (Situation, Background, Assessment, Recommendation) structured summary.
-
-### Use Case 2 Requirement: Agent Workflow via A2A & MCP (Non-Hardcoded)
-**Achieved:** Your explicit prompt asked for:
-> *"Create an Agent workflow application using A2A and MCP protocols where the agents plan the tasks and execute them in a non-hardcoded manner."*
-
-- **A2A Protocol**: We architected the system using `python-a2a` to define 4 totally distinct AI personas (`Planner`, `Risk`, `Missing_Info`, `Synthesis`).
-- **MCP Protocols**: We integrated the Anthropic **Model Context Protocol (`FastMCP`)** to expose our Python scripts securely as tools that the underlying LLM can autonomously invoke.
-- **Non-Hardcoded Execution**: We used `LangGraph` for orchestration. We do *not* use rigid `if/else` rules to decide what happens to a patient. Instead, the `Planner` looks at the PDF text and *subjectively* decides if a patient needs the Risk team or the Missing Info team, dynamically drawing edges on the graph in real-time. 
-
----
-
-## 2. The Comprehensive Technology Stack
+## 1. The Comprehensive Technology Stack
 
 This application replaces traditional, monolithic software design with a highly decoupled, state-of-the-art micro-agent architecture. By separating the intelligence layer, the orchestration layer, and the visual layer, the system achieves maximum fault tolerance and scalability.
 
-### The Intelligence & Orchestration Layer (The Brain)
+### The Intelligence & Orchestration Layer
 
 **1. Ollama & Llama 3.2 (Local Generative AI Inference)**
 Instead of relying on cloud-based APIs like OpenAI's GPT-4, this application executes **Llama 3.2** natively on the host machine using **Ollama** as the model runtime environment. 
@@ -62,9 +45,9 @@ To visualize the AI's thought process, we integrated **React Flow**.
 
 ---
 
-## 3. How Everything is Interlinked (The Data Flow)
+## 2. How Everything is Interlinked (The Data Flow)
 
-Here is exactly what occurs inside your machine the second you click "Load Demo Data":
+Here is exactly what occurs inside our machine the second you click "Load Demo Data":
 
 1. **Upload & Parse Phase**: 
    - The React frontend fires an HTTP POST request pushing the PDF files to FastAPI.
