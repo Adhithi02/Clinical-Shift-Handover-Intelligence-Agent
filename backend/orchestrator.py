@@ -139,7 +139,7 @@ def plan_node(state: ClinicalState) -> dict:
             "result": {
                 "route": entry.get("route"),
                 "priority": entry.get("priority"),
-                "agents": entry.get("agents_to_invoke", [])
+                "agents_to_invoke": entry.get("agents_to_invoke", [])
             }
         })
     

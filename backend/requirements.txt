@@ -1,0 +1,12 @@
+fastapi==0.115.12
+uvicorn[standard]==0.34.2
+websockets==15.0.1
+langgraph==0.4.1
+python-a2a==0.4.4
+fastmcp==2.5.1
+pdfplumber==0.11.6
+pandas==2.2.3
+httpx==0.28.1
+ollama==0.4.8
+python-multipart==0.0.20
+reportlab==4.4.0
