@@ -21,7 +21,7 @@ To orchestrate multiple AI agents, we utilized **LangGraph** instead of traditio
 
 **3. python-a2a & FastMCP (Protocol Compliance Frameworks)**
 The guidelines demanded strict adherence to Agent-to-Agent (A2A) and Model Context Protocol (MCP) standards.
-- *Why this matters:* **`python-a2a`** is used to encapsulate different AI roles (Planner, Risk, Missing Info, Synthesis) into explicit objects. This stops the LLM from suffering from "persona collapse" by tightly sandboxing each agent's identity. **`FastMCP` (Model Context Protocol)** was integrated to safely expose underlying Python utilities (like PDF text extraction and Doctor Replanning functions) to the AI engine. Rather than allowing the AI to execute arbitrary code, FastMCP wraps these functions in strict validation schemas, effectively allowing external AI clients to securely interface with your machine's local tools.
+- *Why this matters:* **`python-a2a`** is used to encapsulate different  AI roles (Planner, Risk, Missing Info, Synthesis) into explicit objects. This stops the LLM from suffering from "persona collapse" by tightly sandboxing each agent's identity. **`FastMCP` (Model Context Protocol)** was integrated to safely expose underlying Python utilities (like PDF text extraction and Doctor Replanning functions) to the AI engine. Rather than allowing the AI to execute arbitrary code, FastMCP wraps these functions in strict validation schemas, effectively allowing external AI clients to securely interface with your machine's local tools.
 
 ###  The Backend Interface (The Server)
 
@@ -47,7 +47,7 @@ To visualize the AI's thought process, we integrated **React Flow**.
 
 ## 2. How Everything is Interlinked (The Data Flow)
 
-Here is exactly what occurs inside our machine the second you click "Load Demo Data":
+Here is exactly what occurs inside our machine the second you click "Load Demo Data"-
 
 1. **Upload & Parse Phase**: 
    - The React frontend fires an HTTP POST request pushing the PDF files to FastAPI.
@@ -73,4 +73,6 @@ Here is exactly what occurs inside our machine the second you click "Load Demo D
 6. **The Doctor-in-the-Loop Replan**:
    - When you type into the Feedback box, React sends a REST request to the `/feedback` FastAPI port.
    - FastAPI uses an `asyncio.to_thread` worker to execute your MCP tool (`replan_workflow`).
-   - The LLM reasons about your instruction, adjusts the global severity, and LangGraph is commanded to run backwards—re-evaluating the patient and broadcasting the updated SBAR string instantaneously to the React state listener.
+   - The LLM reasons about your instruction, adjusts the global severity, and LangGraph is commanded to run backwards—re-evaluating the patient and broadcasting the updated SBAR string instantaneously to the React state listener
+  
+   
